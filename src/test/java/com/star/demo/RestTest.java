@@ -16,6 +16,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -25,6 +27,7 @@ import java.util.concurrent.Executors;
  * @author derrick.liang
  */
 public class RestTest {
+    private static Logger logger = LoggerFactory.getLogger(RestTest.class);
     public static void main(String[] args) throws IOException {
         String url = "http://192.168.5.132:8080/cpm/7c411b5f-e34a-4e8b-a530-81febc1ed62f";
 
@@ -48,15 +51,15 @@ public class RestTest {
         StringEntity stringEntity = new StringEntity(result);
         httpPost.setEntity(stringEntity);
         httpPost.setHeader("Content-type", "application/json");
-        for(int i =0; i<5000 ; i++) {
+        for(int i =0; i<100 ; i++) {
             System.out.println("i--- :" + i);
             Runnable runnable = () -> {
                 try {
                     HttpResponse postResponse = client.execute(httpPost);
                     if (postResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-                        System.out.println("update successfully");
+                        logger.info("update successfully");
                     } else {
-                        System.out.println("fail by : " + postResponse.getStatusLine().getReasonPhrase());
+                        logger.error("fail by : " + postResponse.getStatusLine().getReasonPhrase());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

@@ -27,18 +27,10 @@ import java.util.UUID;
 @RestController
 @RequestMapping(value = "/author")
 public class AuthorController {
-    @Autowired
-    private AuthorService authorService;
+    @Autowired private AuthorService authorService;
 
-    @RequestMapping(value = "/add",
-            //            headers = {"content-type=application/json"},
-            /* consumes = MediaType.APPLICATION_JSON_VALUE,
-             produces = MediaType.APPLICATION_JSON_VALUE,*/
-            method = RequestMethod.POST)
-    //    @ResponseBody
-    public void add(
-            @RequestBody
-                    Author author) {
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public void add(@RequestBody Author author) {
         String id = author.getId();
         if (Strings.isEmpty(id)) {
             id = UUID.randomUUID().toString();
@@ -48,9 +40,7 @@ public class AuthorController {
     }
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-    public Author get(
-            @PathVariable(value = "id")
-                    String id) {
+    public Author get(@PathVariable(value = "id") String id) {
         return authorService.findAuthor(id);
     }
 
@@ -60,18 +50,12 @@ public class AuthorController {
     }
 
     @RequestMapping(value = "/delete/{id}")
-    public void delete(
-            @PathVariable(value = "id")
-                    String id) {
+    public void delete(@PathVariable(value = "id") String id) {
         authorService.delete(id);
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-    public void update(
-            @RequestBody
-                    Author author,
-            @PathVariable(value = "id")
-                    String id) {
+    public void update(@RequestBody Author author, @PathVariable(value = "id") String id) {
         author.setId(id);
         authorService.update(author);
     }

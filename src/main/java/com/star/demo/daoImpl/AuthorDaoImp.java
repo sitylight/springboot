@@ -29,7 +29,6 @@ public class AuthorDaoImp implements AuthorDao {
 
     @Override
     public int add(Author author) {
-//        String id = UUID.randomUUID().toString();
         String sql = "insert into t_author(id, real_name, nick_name) values(?, ?, ?)";
         return jdbcTemplate.update(sql, author.getId(), author.getRealName(), author.getNickName());
     }
